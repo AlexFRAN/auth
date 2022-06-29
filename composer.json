@@ -1,0 +1,21 @@
+{
+    "name": "pixxel/auth",
+    "description": "Simple authentication library",
+    "type": "library",
+    "require": {
+        "pixxel/dbal": "^1.0",
+        "josantonius/session": "^2.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Pixxel\\": "src/Pixxel/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pixxelfactory",
+            "email": "box@pixxelfactory.net"
+        }
+    ]
+}

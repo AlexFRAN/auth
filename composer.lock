@@ -1,0 +1,122 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "e579f6538fa540c9cdeecfbd140cf8f1",
+    "packages": [
+        {
+            "name": "josantonius/session",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/josantonius/php-session.git",
+                "reference": "2226099187d2c4bdb374b5985e277220b86f78cf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/josantonius/php-session/zipball/2226099187d2c4bdb374b5985e277220b86f78cf",
+                "reference": "2226099187d2c4bdb374b5985e277220b86f78cf",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "phpmd/phpmd": "^2.12",
+                "phpunit/phpunit": "^9.0",
+                "squizlabs/php_codesniffer": "^3.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Josantonius\\Session\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Josantonius",
+                    "email": "hello@josantonius.dev",
+                    "homepage": "https://josantonius.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP library for handling sessions.",
+            "keywords": [
+                "php",
+                "session"
+            ],
+            "support": {
+                "forum": "http://stackoverflow.com/tags/josantonius/php-session",
+                "issues": "https://github.com/josantonius/php-session/issues",
+                "source": "https://github.com/josantonius/php-session"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Josantonius",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-06-28T00:10:45+00:00"
+        },
+        {
+            "name": "pixxel/dbal",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pixxelfactory/DBAL.git",
+                "reference": "e1b6ff3045b747d2af418ccff184db0d5048c082"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pixxelfactory/DBAL/zipball/e1b6ff3045b747d2af418ccff184db0d5048c082",
+                "reference": "e1b6ff3045b747d2af418ccff184db0d5048c082",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pixxel\\": "src/Pixxel/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pixxelfactory",
+                    "email": "box@pixxelfactory.net"
+                }
+            ],
+            "description": "A simple PDO wrapper / DBAL, with easier syntax than pdo",
+            "support": {
+                "issues": "https://github.com/pixxelfactory/DBAL/issues",
+                "source": "https://github.com/pixxelfactory/DBAL/tree/1.0.4"
+            },
+            "time": "2022-06-29T07:31:48+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
