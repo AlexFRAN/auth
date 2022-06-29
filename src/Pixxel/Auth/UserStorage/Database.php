@@ -63,9 +63,10 @@ class Database implements \Pixxel\Auth\UserStorageInterface
      * Verify a user, search by its username and / or other conditions and use the predefined hash-function to check the password
      * @param string $username
      * @param string $password
+     * @param string $conditions
      * @return bool|object
      */
-    public function verifyUser(string $username, string $password): bool|object
+    public function verifyUser(string $username, string $password, array $conditions = []): bool|object
     {
         $user = $this->getByUsername($username);
 
@@ -76,6 +77,17 @@ class Database implements \Pixxel\Auth\UserStorageInterface
 
         if($this->verifyPassword($password, $user->get('password')))
         {
+            if(!empty($conditions))
+            {
+                foreach($conditions as $field => $value)
+                {
+                    if(!$user->has($field) || $user->get($field) != $value)
+                    {
+                        return false;
+                    }
+                }
+            }
+
             return $user;
         }
 

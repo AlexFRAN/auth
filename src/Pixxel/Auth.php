@@ -26,16 +26,17 @@ class Auth
      * Try to login a user and return the user object if successful
      * @param string $username
      * @param string $password
+     * @param array $conditions     Other conditions, such as active => 1
      * @return bool|object
      */
-    public function login($username, $password)
+    public function login($username, $password, $conditions = [])
     {
         if($this->authSession->isLoggedIn())
         {
             $this->authSession->logout();
         }
 
-        $user = $this->storage->verifyUser($username, $password);
+        $user = $this->storage->verifyUser($username, $password, $conditions);
 
         if(!$user)
         {
