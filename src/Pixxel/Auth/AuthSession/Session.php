@@ -37,7 +37,7 @@ class Session
      */
     public function login($data = [])
     {
-        $verification = hash('sha256', json_encode($data).$this->secret);
+        $verification = hash_hmac('sha256', json_encode($data), $this->secret);
 
         $this->handler->set('user', $data);
         $this->handler->set('verification', $verification);
@@ -56,7 +56,7 @@ class Session
             return false;
         }
 
-        $verification = hash('sha256', json_encode($user).$this->secret);
+        $verification = hash_hmac('sha256', json_encode($user), $this->secret);
 
         if($verification != $this->handler->get('verification'))
         {
@@ -73,7 +73,7 @@ class Session
     public function refresh(array $user)
     {
         $this->handler->set('user', $user);
-        $verification = hash('sha256', json_encode($user).$this->secret);
+        $verification = hash_hmac('sha256', json_encode($user), $this->secret);
         $this->handler->set('verification', $verification);
     }
 
