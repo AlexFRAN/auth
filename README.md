@@ -26,8 +26,8 @@ Then you can use it like this:
         'dbal' => $dbal
     ]);
     $sessionHandler = new Josantonius\Session\Session();        // We use the Session library from Josantonius by default
-    $authSession = new Pixxel\Auth\AuthSession\Session(['handler' => $sessionHandler, 'secret' => $secret]);    // And pass that to our session-handler, for that you could write jwt-handlers or other implementations
-    $auth = new Pixxel\Auth($userStorage, $authSession);        // Finally, create an auth instance and pass the user- and session-storage to it
+    $persistence = new Pixxel\Auth\Persistence\Session(['handler' => $sessionHandler, 'secret' => $secret]);    // And pass that to our session-handler, for that you could write jwt-handlers or other implementations
+    $auth = new Pixxel\Auth($userStorage, $persistence);        // Finally, create an auth instance and pass the user- and session-storage to it
 
     // Now we are set and can for instance try to login a user:
     if($auth->login('myusername', 'mypassword'))

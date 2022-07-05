@@ -1,5 +1,5 @@
 <?php
-namespace Pixxel\Auth\AuthSession;
+namespace Pixxel\Auth\Persistence;
 
 /**
  * Class that handles user persistence via sessions, uses the session library by josantonius

@@ -9,17 +9,17 @@ namespace Pixxel;
 class Auth
 {
     private $storage;       // In here the object with which you can search for users and details are stored, it uses the driver pattern, so the methods to access the data is the same on each
-    private $authSession;   // Object that handles the user persistence, either through a session or some kind of token
+    private $persistence;   // Object that handles the user persistence, either through a session or some kind of token
     private $user;          // In here the current user-details are stored
 
     /**
      * At the moment i was too lazy to implement a DI-library, so the userstorage and user object have to be passed into the constructor -.-
      * @param object $storage
      */
-    public function __construct(object $storage, object $authSession)
+    public function __construct(object $storage, object $persistence)
     {
         $this->storage = $storage;
-        $this->authSession = $authSession;
+        $this->persistence = $persistence;
     }
 
     /**
@@ -31,9 +31,9 @@ class Auth
      */
     public function login($username, $password, $conditions = [])
     {
-        if($this->authSession->isLoggedIn())
+        if($this->persistence->isLoggedIn())
         {
-            $this->authSession->logout();
+            $this->persistence->logout();
         }
 
         $user = $this->storage->verifyUser($username, $password, $conditions);
@@ -46,7 +46,7 @@ class Auth
         $data = $user->get();
         unset($data['password']);   // Do not save the hashed password in the session
 
-        $this->authSession->login($data);
+        $this->persistence->login($data);
 
         return true;
     }
@@ -57,7 +57,7 @@ class Auth
      */
     public function isLoggedIn()
     {
-        return $this->authSession->isLoggedIn();
+        return $this->persistence->isLoggedIn();
     }
 
     /**
@@ -66,7 +66,7 @@ class Auth
      */
     public function getUser()
     {
-        return $this->authSession->getUser();
+        return $this->persistence->getUser();
     }
 
     /**
@@ -86,6 +86,6 @@ class Auth
      */
     public function logout()
     {
-        return $this->authSession->logout();
+        return $this->persistence->logout();
     }
 }
