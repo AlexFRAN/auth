@@ -1,4 +1,5 @@
 <?php
+
 namespace Pixxel\Auth\Persistence;
 
 /**
@@ -12,21 +13,18 @@ class Session
 
     public function __construct($data = [])
     {
-        if(empty($data['handler']) || !$data['handler'] instanceof \josantonius\Session\Session)
-        {
+        if (empty($data['handler']) || !$data['handler'] instanceof \josantonius\Session\Session) {
             throw new \Exception("Session handler not specified or not instance of \\josantonius\\Session\\Session.");
         }
 
-        if(empty($data['secret']))
-        {
+        if (empty($data['secret'])) {
             throw new \Exception("Secret key for session signing not provided (param: secret)");
         }
 
         $this->handler = $data['handler'];
         $this->secret = $data['secret'];
-        
-        if(!$this->handler->isStarted())
-        {
+
+        if (!$this->handler->isStarted()) {
             $this->handler->start();
         }
     }
@@ -51,15 +49,13 @@ class Session
     {
         $user = $this->handler->get('user');
 
-        if(empty($user))
-        {
+        if (empty($user)) {
             return false;
         }
 
         $verification = hash_hmac('sha256', json_encode($user), $this->secret);
 
-        if($verification != $this->handler->get('verification'))
-        {
+        if ($verification != $this->handler->get('verification')) {
             return false;
         }
 

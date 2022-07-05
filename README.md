@@ -21,7 +21,7 @@ Then you can use it like this:
     require_once(dirname(__FILE__).'/vendor/autoload.php');
 
     $secret = 'mysupersecretkey';                               // The key is used to generate a hmac verification for the data saved in the session
-    $dbal = new Pixxel\DBAL('dbuser', 'dbpass', 'dbname');      // By default the lib uses our dbal library for user storage
+    $dbal = new Pixxel\Dbal('dbuser', 'dbpass', 'dbname');      // By default the lib uses our dbal library for user storage
     $userStorage = new Pixxel\Auth\UserStorage\Database([       // Create a user storage with the $dbal instance as db handler, the Database class contains all the methods to register / login / verify users in the db
         'dbal' => $dbal
     ]);

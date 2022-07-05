@@ -1,4 +1,5 @@
 <?php
+
 namespace Pixxel\Auth;
 
 /**
@@ -33,8 +34,7 @@ class User
      */
     public function removePassword()
     {
-        if(!empty($this->data['password']))
-        {
+        if (!empty($this->data['password'])) {
             unset($this->data['password']);
         }
     }
@@ -46,14 +46,12 @@ class User
      */
     public function get($field = false)
     {
-        if(!$field)
-        {
+        if (!$field) {
             return $this->data;
         }
 
-        if(!isset($this->data[$field]))
-        {
-            throw new \Exception("Field: ".$field." not found in user array.");
+        if (!isset($this->data[$field])) {
+            throw new \Exception("Field: " . $field . " not found in user array.");
         }
 
         return $this->data[$field];
@@ -66,8 +64,7 @@ class User
      */
     public function set($field, $value)
     {
-        if(!$field)
-        {
+        if (!$field) {
             return;
         }
 

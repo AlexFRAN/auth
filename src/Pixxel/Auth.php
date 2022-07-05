@@ -1,4 +1,5 @@
 <?php
+
 namespace Pixxel;
 
 /**
@@ -31,15 +32,13 @@ class Auth
      */
     public function login($username, $password, $conditions = [])
     {
-        if($this->persistence->isLoggedIn())
-        {
+        if ($this->persistence->isLoggedIn()) {
             $this->persistence->logout();
         }
 
         $user = $this->storage->verifyUser($username, $password, $conditions);
 
-        if(!$user)
-        {
+        if (!$user) {
             return false;
         }
 

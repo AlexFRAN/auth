@@ -1,4 +1,5 @@
 <?php
+
 namespace Pixxel\Auth\UserStorage;
 
 /**
@@ -15,8 +16,7 @@ class Database implements \Pixxel\Auth\UserStorageInterface
 
     public function __construct($configuration)
     {
-        if(empty($configuration['dbal']) || !$configuration['dbal'] instanceof \Pixxel\DBAL)
-        {
+        if (empty($configuration['dbal']) || !$configuration['dbal'] instanceof \Pixxel\DBAL) {
             throw new \Exception('No valid dbal instance passed to the storage-configuration');
         }
 
@@ -35,22 +35,19 @@ class Database implements \Pixxel\Auth\UserStorageInterface
     public function getByUsername($username): bool|object
     {
         $params = [];
-        $query = "select * from `".$this->usersTable."` where `".$this->usernameField."` = :username";
+        $query = "select * from `" . $this->usersTable . "` where `" . $this->usernameField . "` = :username";
         $params[':username'] = $username;
 
-        if(!empty($this->conditions))
-        {
-            foreach($this->conditions as $field => $value)
-            {
-                $query .= " and `".$field."` = :".$field;   // Watch out that the user cannot control the field names
-                $params[':'.$field] = $value;
+        if (!empty($this->conditions)) {
+            foreach ($this->conditions as $field => $value) {
+                $query .= " and `" . $field . "` = :" . $field;   // Watch out that the user cannot control the field names
+                $params[':' . $field] = $value;
             }
         }
-        
+
         $result = $this->dbal->readSingle($query, $params);
 
-        if(!$result)
-        {
+        if (!$result) {
             return false;
         }
 
@@ -70,19 +67,14 @@ class Database implements \Pixxel\Auth\UserStorageInterface
     {
         $user = $this->getByUsername($username);
 
-        if(!$user)
-        {
+        if (!$user) {
             return false;
         }
 
-        if($this->verifyPassword($password, $user->get('password')))
-        {
-            if(!empty($conditions))
-            {
-                foreach($conditions as $field => $value)
-                {
-                    if(!$user->has($field) || $user->get($field) != $value)
-                    {
+        if ($this->verifyPassword($password, $user->get('password'))) {
+            if (!empty($conditions)) {
+                foreach ($conditions as $field => $value) {
+                    if (!$user->has($field) || $user->get($field) != $value) {
                         return false;
                     }
                 }
@@ -101,19 +93,18 @@ class Database implements \Pixxel\Auth\UserStorageInterface
      */
     public function hashPassword($password): string
     {
-        switch($this->hashAlgorithm)
-        {
+        switch ($this->hashAlgorithm) {
             case 'argon2i':
                 $algorithm = PASSWORD_ARGON2I;
-            break;
+                break;
 
             case 'argon2id':
                 $algorithm = PASSWORD_ARGON2ID;
-            break;
+                break;
 
             case 'bcrypt':
                 $algorithm = PASSWORD_BCRYPT;
-            break;
+                break;
         }
 
         return password_hash($password, $algorithm);
@@ -141,36 +132,32 @@ class Database implements \Pixxel\Auth\UserStorageInterface
     public function register(string $username, string $password, array $data)
     {
         // Check if the user exists already
-        $query = "select * from `".$this->usersTable."` where `".$this->usernameField."` = :username";
+        $query = "select * from `" . $this->usersTable . "` where `" . $this->usernameField . "` = :username";
         $exists = $this->dbal->readSingle($query, [':username' => $username]);
 
-        if(!empty($exists))
-        {
+        if (!empty($exists)) {
             throw new \Exception('User with this username exists already.');
         }
 
         // Otherwise try to insert it
-        $query = "insert into `".$this->usersTable."` (`".$this->usernameField."`, `password`";
+        $query = "insert into `" . $this->usersTable . "` (`" . $this->usernameField . "`, `password`";
 
-        foreach($data as $field => $value)
-        {
-            $query .= ", `".$field."`";
+        foreach ($data as $field => $value) {
+            $query .= ", `" . $field . "`";
         }
 
         $query .= ") values(:username, :password";
 
-        foreach($data as $field => $value)
-        {
-            $query .= ", :".$field;
+        foreach ($data as $field => $value) {
+            $query .= ", :" . $field;
         }
 
         $query .= ")";
         $password = $this->hashPassword($password);
         $params = [':username' => $username, ':password' => $password];
 
-        foreach($data as $field => $value)
-        {
-            $params[':'.$field] = $value;
+        foreach ($data as $field => $value) {
+            $params[':' . $field] = $value;
         }
 
         return $this->dbal->save($query, $params);
