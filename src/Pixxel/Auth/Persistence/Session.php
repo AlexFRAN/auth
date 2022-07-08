@@ -5,10 +5,11 @@ namespace Pixxel\Auth\Persistence;
 /**
  * Class that handles user persistence via sessions, uses the session library by josantonius
  */
-class Session
+class Session implements \Pixxel\Auth\PersistenceInterface
 {
     private $handler;
     private $secret;
+    private bool $updateOnRefresh = true;
 
 
     public function __construct($data = [])
@@ -27,6 +28,24 @@ class Session
         if (!$this->handler->isStarted()) {
             $this->handler->start();
         }
+    }
+
+    /**
+     * Sets if the persistence object should be updated on login and refresh
+     * @param bool $update
+     */
+    public function setUpdateOnRefresh(bool $update)
+    {
+        $this->updateOnRefresh = $update;
+    }
+
+    /**
+     * Checks if the object should be updated on login and refresh
+     * @return bool
+     */
+    public function getUpdateOnRefresh(): bool
+    {
+        return $this->updateOnRefresh;
     }
 
     /**
@@ -86,10 +105,13 @@ class Session
 
     /**
      * Logs out the current user by destroying the session and regenerating the session-id
+     * @TODO: Verify success
      */
     public function logout()
     {
         $this->handler->destroy();
         $this->handler->start();
+
+        return true;
     }
 }

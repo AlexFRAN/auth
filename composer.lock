@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e579f6538fa540c9cdeecfbd140cf8f1",
+    "content-hash": "6b84f88c173444ba433979f198076928",
     "packages": [
         {
             "name": "josantonius/session",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/josantonius/php-session.git",
-                "reference": "2226099187d2c4bdb374b5985e277220b86f78cf"
+                "reference": "9702ec761bc83c1e3506e87de6670433b9277037"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/josantonius/php-session/zipball/2226099187d2c4bdb374b5985e277220b86f78cf",
-                "reference": "2226099187d2c4bdb374b5985e277220b86f78cf",
+                "url": "https://api.github.com/repos/josantonius/php-session/zipball/9702ec761bc83c1e3506e87de6670433b9277037",
+                "reference": "9702ec761bc83c1e3506e87de6670433b9277037",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
                 "session"
             ],
             "support": {
-                "forum": "http://stackoverflow.com/tags/josantonius/php-session",
+                "discussions": "https://github.com/josantonius/php-session/discussions",
                 "issues": "https://github.com/josantonius/php-session/issues",
                 "source": "https://github.com/josantonius/php-session"
             },
@@ -67,20 +67,84 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-28T00:10:45+00:00"
+            "time": "2022-06-29T22:02:23+00:00"
         },
         {
-            "name": "pixxel/dbal",
-            "version": "1.0.4",
+            "name": "pixxel/cookie",
+            "version": "2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pixxelfactory/DBAL.git",
-                "reference": "e1b6ff3045b747d2af418ccff184db0d5048c082"
+                "url": "https://github.com/pixxelfactory/cookie.git",
+                "reference": "12e32887386a5f808ce23e757348467bb8acf44f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pixxelfactory/DBAL/zipball/e1b6ff3045b747d2af418ccff184db0d5048c082",
-                "reference": "e1b6ff3045b747d2af418ccff184db0d5048c082",
+                "url": "https://api.github.com/repos/pixxelfactory/cookie/zipball/12e32887386a5f808ce23e757348467bb8acf44f",
+                "reference": "12e32887386a5f808ce23e757348467bb8acf44f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.3 || ^2.8",
+                "phpmd/phpmd": "^2.6",
+                "phpunit/phpunit": "^9.0",
+                "squizlabs/php_codesniffer": "^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pixxel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Josantonius",
+                    "email": "hello@josantonius.com",
+                    "homepage": "https://josantonius.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Pixxelfactory",
+                    "email": "box@pixxelfactory.net",
+                    "homepage": "https://www.pixxelfactory.net",
+                    "role": "Web Development Agency"
+                }
+            ],
+            "description": "PHP library for handling cookies.",
+            "keywords": [
+                "cookies",
+                "hhvm",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/pixxelfactory/cookie/issues",
+                "source": "https://github.com/pixxelfactory/cookie"
+            },
+            "time": "2022-07-08T14:55:53+00:00"
+        },
+        {
+            "name": "pixxel/dbal",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pixxelfactory/dbal.git",
+                "reference": "e49e4b8a62635fbcf84cb1427144af72d46759d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pixxelfactory/dbal/zipball/e49e4b8a62635fbcf84cb1427144af72d46759d5",
+                "reference": "e49e4b8a62635fbcf84cb1427144af72d46759d5",
                 "shasum": ""
             },
             "require": {
@@ -104,10 +168,10 @@
             ],
             "description": "A simple PDO wrapper / DBAL, with easier syntax than pdo",
             "support": {
-                "issues": "https://github.com/pixxelfactory/DBAL/issues",
-                "source": "https://github.com/pixxelfactory/DBAL/tree/1.0.4"
+                "issues": "https://github.com/pixxelfactory/dbal/issues",
+                "source": "https://github.com/pixxelfactory/dbal/tree/1.0.6"
             },
-            "time": "2022-06-29T07:31:48+00:00"
+            "time": "2022-07-05T07:48:58+00:00"
         }
     ],
     "packages-dev": [],
@@ -118,5 +182,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.3.0"
 }

@@ -10,30 +10,93 @@ namespace Pixxel;
 class Auth
 {
     private $storage;       // In here the object with which you can search for users and details are stored, it uses the driver pattern, so the methods to access the data is the same on each
-    private $persistence;   // Object that handles the user persistence, either through a session or some kind of token
+    private $persistence = [];   // Object that handles the user persistence, either through a session or some kind of token
     private $user;          // In here the current user-details are stored
+
 
     /**
      * At the moment i was too lazy to implement a DI-library, so the userstorage and user object have to be passed into the constructor -.-
      * @param object $storage
      */
-    public function __construct(object $storage, object $persistence)
+    public function __construct(object $storage, bool|array|object $persistence = false)
     {
         $this->storage = $storage;
-        $this->persistence = $persistence;
+
+        if(is_object($persistence))
+        {
+            if($persistence instanceof \Pixxel\Auth\PersistenceInterface)
+            {
+                $this->persistence[$this->getClassName($persistence)] = $persistence;
+            }
+        }
+        elseif(is_array($persistence))
+        {
+            foreach($persistence as $persistenceObject)
+            {
+                if(is_object($persistenceObject) && $persistenceObject instanceof \Pixxel\Auth\PersistenceInterface)
+                {
+                    $this->persistence[$this->getClassName($persistenceObject)] = $persistenceObject;
+                }
+            }
+        }
+    }
+    
+    /**
+     * Gets the classname only from an object (without the namespace)
+     * TODO: Maybe move this method to another, more generic class, since it's not tied to Authentication
+     * @param object $object
+     * @return string|bool
+     */
+    public function getClassName(object $object): string|bool
+    {
+        $class = get_class($object);
+        $pos = strrpos($class, '\\');
+
+        if($pos)
+        {
+            return substr($class, $pos + 1);
+        }
+
+        return false;
     }
 
     /**
-     * Try to login a user and return the user object if successful
+     * Add a new persistence object
+     * @param object $persistenceObject     Has to be a class that implements the PersistenceInterface
+     * @return bool
+     */
+    public function addPersistence(object $persistenceObject): bool
+    {
+        if ($persistenceObject instanceof \Pixxel\Auth\PersistenceInterface) {
+            $this->persistence[$this->getClassName($persistenceObject)] = $persistenceObject;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get a single persistence object
+     * @param string $classname
+     * @return object|bool
+     */
+    public function getPersistence(string $classname): object|bool
+    {
+        return isset($this->persistence[$classname]) ? $this->persistence[$classname] : false;
+    }
+
+    /**
+     * Try to login a user and return true or false
      * @param string $username
      * @param string $password
      * @param array $conditions     Other conditions, such as active => 1
-     * @return bool|object
+     * @return bool
      */
-    public function login($username, $password, $conditions = [])
+    public function login($username, $password, $conditions = []): bool
     {
-        if ($this->persistence->isLoggedIn()) {
-            $this->persistence->logout();
+        if ($this->isLoggedIn()) {
+            $this->logout();
         }
 
         $user = $this->storage->verifyUser($username, $password, $conditions);
@@ -45,7 +108,9 @@ class Auth
         $data = $user->get();
         unset($data['password']);   // Do not save the hashed password in the session
 
-        $this->persistence->login($data);
+        foreach ($this->persistence as $persistenceObject) {
+            $persistenceObject->login($data);
+        }
 
         return true;
     }
@@ -56,16 +121,73 @@ class Auth
      */
     public function isLoggedIn()
     {
-        return $this->persistence->isLoggedIn();
+        $loggedIn = false;
+
+        foreach ($this->persistence as $persistenceObject) {
+            if ($persistenceObject->isLoggedIn() === true) {
+                $loggedIn = true;
+            }
+        }
+        
+        return $loggedIn;
+    }
+
+    /**
+     * Refresh the user session to prevent timeout after login when there is user activity
+     * @param ?array $user      You can manually refresh a user, otherwise it loops through the persistence objects to find it
+     * @return bool
+     */
+    public function refresh(array|bool $user = false)
+    {
+        $loggedIn = false;
+        $negativeObjects = [];
+
+        if(!$user)
+        {
+            foreach ($this->persistence as $persistenceObject) {
+                if ($persistenceObject->isLoggedIn() === true) {
+                    $loggedIn = true;
+                    $user = $persistenceObject->getUser();
+                }
+                else {
+                    $negativeObjects[] = $persistenceObject;
+                }
+            }
+
+            if ($loggedIn == true) {
+                foreach ($negativeObjects as $object) {
+                    if ($object->getUpdateOnRefresh() === true) {
+                        $object->refresh($user);
+                    }
+                }
+            }
+        }
+        else
+        {
+            foreach($this->persistence as $persistenceObject)
+            {
+                $persistenceObject->refresh($user);
+            }
+        }
+        
+        return $loggedIn;
     }
 
     /**
      * Get the current user or false if not logged in
      * @return bool|array
      */
-    public function getUser()
+    public function getUser(): bool|array
     {
-        return $this->persistence->getUser();
+        foreach ($this->persistence as $persistenceObject) {
+            $user = $persistenceObject->getUser();
+
+            if (is_array($user) && !empty($user)) {
+                return $user;
+            }
+        }
+        
+        return false;
     }
 
     /**
@@ -85,6 +207,14 @@ class Auth
      */
     public function logout()
     {
-        return $this->persistence->logout();
+        $return = true;
+
+        foreach ($this->persistence as $persistenceObject) {
+            if (!$persistenceObject->logout()) {
+                $return = false;
+            }
+        }
+        
+        return $return;
     }
 }
