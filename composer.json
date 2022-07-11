@@ -4,8 +4,8 @@
     "type": "library",
     "require": {
         "pixxel/dbal": "^1.0",
-        "josantonius/session": "^2.0",
-        "pixxel/cookie": "^2.0"
+        "pixxel/cookie": "^2.0",
+        "pixxel/session": "^2.0"
     },
     "license": "MIT",
     "autoload": {

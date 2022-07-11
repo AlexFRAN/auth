@@ -14,8 +14,8 @@ class Session implements \Pixxel\Auth\PersistenceInterface
 
     public function __construct($data = [])
     {
-        if (empty($data['handler']) || !$data['handler'] instanceof \josantonius\Session\Session) {
-            throw new \Exception("Session handler not specified or not instance of \\josantonius\\Session\\Session.");
+        if (empty($data['handler']) || !$data['handler'] instanceof \Pixxel\Session) {
+            throw new \Exception("Session handler not specified or not instance of \\Pixxel\\Session.");
         }
 
         if (empty($data['secret'])) {
