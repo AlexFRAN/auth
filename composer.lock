@@ -72,20 +72,23 @@
         },
         {
             "name": "pixxel/dbal",
-            "version": "1.0.6",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pixxelfactory/dbal.git",
-                "reference": "e49e4b8a62635fbcf84cb1427144af72d46759d5"
+                "reference": "e38ebbd3af6cf822c9c714cdbf3cbf3aac8d378f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pixxelfactory/dbal/zipball/e49e4b8a62635fbcf84cb1427144af72d46759d5",
-                "reference": "e49e4b8a62635fbcf84cb1427144af72d46759d5",
+                "url": "https://api.github.com/repos/pixxelfactory/dbal/zipball/e38ebbd3af6cf822c9c714cdbf3cbf3aac8d378f",
+                "reference": "e38ebbd3af6cf822c9c714cdbf3cbf3aac8d378f",
                 "shasum": ""
             },
             "require": {
                 "php": ">= 7.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
             },
             "type": "library",
             "autoload": {
@@ -106,9 +109,9 @@
             "description": "A simple PDO wrapper / DBAL, with easier syntax than pdo",
             "support": {
                 "issues": "https://github.com/pixxelfactory/dbal/issues",
-                "source": "https://github.com/pixxelfactory/dbal/tree/1.0.6"
+                "source": "https://github.com/pixxelfactory/dbal/tree/1.1.1"
             },
-            "time": "2022-07-05T07:48:58+00:00"
+            "time": "2022-07-14T09:43:51+00:00"
         },
         {
             "name": "pixxel/session",

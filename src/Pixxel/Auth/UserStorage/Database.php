@@ -34,11 +34,23 @@ class Database implements \Pixxel\Auth\UserStorageInterface
      */
     public function getByUsername($username): bool|object
     {
+        if (!$this->dbal->tableExists($this->usersTable) || 
+            !$this->dbal->columnExists($this->usernameField, $this->usersTable)) {
+            return false;
+        }
+
         $params = [];
         $query = "select * from `" . $this->usersTable . "` where `" . $this->usernameField . "` = :username";
         $params[':username'] = $username;
 
         if (!empty($this->conditions)) {
+            $fields = array_keys($this->conditions);
+
+            // Whitelist condition-fields
+            if(!$this->dbal->columnsExist($fields, $this->usersTable)) {
+                return false;
+            }
+
             foreach ($this->conditions as $field => $value) {
                 $query .= " and `" . $field . "` = :" . $field;   // Watch out that the user cannot control the field names
                 $params[':' . $field] = $value;
@@ -131,6 +143,19 @@ class Database implements \Pixxel\Auth\UserStorageInterface
      */
     public function register(string $username, string $password, array $data)
     {
+        // The userstable or username field do not exist (possibility of sql-injection)
+        if (!$this->dbal->tableExists($this->usersTable) || 
+            !$this->dbal->columnExists($this->usernameField, $this->usersTable)) {
+            return false;
+        }
+
+        // ..same for all other additional fields
+        if(!empty($data) &&
+           !$this->dbal->columnsExist(array_keys($data), $this->usersTable)) {
+            return false;
+        }
+
+
         // Check if the user exists already
         $query = "select * from `" . $this->usersTable . "` where `" . $this->usernameField . "` = :username";
         $exists = $this->dbal->readSingle($query, [':username' => $username]);
