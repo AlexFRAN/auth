@@ -25,7 +25,7 @@ Then you can use it like this:
     $userStorage = new Pixxel\Auth\UserStorage\Database([       // Create a user storage with the $dbal instance as db handler, the Database class contains all the methods to register / login / verify users in the db
         'dbal' => $dbal
     ]);
-    $sessionHandler = new Josantonius\Session\Session();        // We use the Session library from Josantonius by default
+    $sessionHandler = new Pixxel\Session();
     $persistence = new Pixxel\Auth\Persistence\Session(['handler' => $sessionHandler, 'secret' => $secret]);    // And pass that to our session-handler, for that you could write jwt-handlers or other implementations
     $auth = new Pixxel\Auth($userStorage, $persistence);        // Finally, create an auth instance and pass the user- and session-storage to it
 
